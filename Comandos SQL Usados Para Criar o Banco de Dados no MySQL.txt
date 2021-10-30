@@ -1,0 +1,42 @@
+Comandos SQL usado para criar o banco de dados cadastroalunonotas no MySQL.
+
+DROP DATABASE IF EXISTS cadastroalunonotas;
+CREATE DATABASE IF NOT EXISTS cadastroalunonotas;
+
+DROP TABLE IF EXISTS cadastroalunonotas.dadospessoais;
+CREATE TABLE IF NOT EXISTS cadastroalunonotas.dadospessoais(
+    RGM       INT(8)       NOT NULL,
+    NOME      VARCHAR(100) NOT NULL,
+    DATA      VARCHAR(10)  NOT NULL,
+    CPF       VARCHAR(14)  NOT NULL,
+    EMAIL     VARCHAR(150) NOT NULL,
+    ENDERECO  VARCHAR(150) NOT NULL,
+    MUNICIPIO VARCHAR(50)  NOT NULL,
+    UF        CHAR(2)      NOT NULL,
+    CELULAR   VARCHAR(14)  NOT NULL,
+    CURSO     VARCHAR(100) NOT NULL,
+    CAMPUS    VARCHAR(100) NOT NULL,
+    PERIODO   VARCHAR(25) NOT NULL,
+    CONSTRAINT PK_PRIMARY
+    	PRIMARY KEY (RGM)
+);
+
+DROP TABLE IF EXISTS cadastroalunonotas.notasfaltas;
+CREATE TABLE IF NOT EXISTS cadastroalunonotas.notasfaltas(
+    COD        INT(3)             NOT NULL AUTO_INCREMENT,
+    DISCIPLINA VARCHAR(100)       NOT NULL,
+    SEMESTRE   VARCHAR(6)         NOT NULL,
+    NOTA       DECIMAL(10,1)      NOT NULL,
+    FALTA      INT(3)             NOT NULL,
+    RGM        INT(8)             NOT NULL,
+    NOME       VARCHAR(100)       NOT NULL,
+    CURSO      VARCHAR(100)       NOT NULL,
+    CONSTRAINT PK_PRIMARY
+    	PRIMARY KEY (COD, RGM),
+    CONSTRAINT KF_NOTASFALTAS_2_RGM
+    	FOREIGN KEY (RGM) REFERENCES dadospessoais (RGM),
+    CONSTRAINT KF_NOTASFALTAS_2_NOME
+    	FOREIGN KEY (NOME) REFERENCES dadospessoais (NOME),
+    CONSTRAINT KF_NOTASFALTAS_2_CURSO
+    	FOREIGN KEY (CURSO) REFERENCES dadospessoais (CURSO)
+);
